@@ -1,0 +1,425 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<HTML>
+<HEAD>
+<TITLE>COMP3411/9414/9814 Project 1</TITLE>
+</HEAD>
+<BODY LANG="EN">
+<h2 align=center>COMP3411/9414/9814 Artificial Intelligence</h2>
+<h2 align=center>Session 1, 2017</h2>
+<H3 align=center>Assignment 1 - Prolog Programming</H3>
+<p align=center>
+Due: Wednesday 5 April, 11:59pm
+<br align=center>
+Marks: 12% of final assessment for COMP3411/9414/9814 Artificial Intelligence
+
+<hr>
+
+<h3>Specification</h3>
+
+In this assignment, you are to write Prolog procedures to
+perform some list and tree operations. The aim of the assignment is to give you
+experience with typical Prolog programming techniques.
+<p>
+
+<p>
+At the start of your program,  place a comment containing
+<b>your full name, student number and assignment name</b>.
+You may add additional information like the date the program was completed, etc.
+if you wish.
+</p>
+
+<p>
+At the start of each Prolog predicate that you write, write a comment
+describing the overall function of the predicate.
+</p>
+
+<p>Advice on the use of comments and meaningful identifiers in Prolog
+can be found under 
+<a href="http://www.cse.unsw.edu.au/~billw/prologdict.html#comment">comments</a>
+in the <a href="http://www.cse.unsw.edu.au/~billw/prologdict.html">Prolog
+Dictionary</a>.
+</p>
+
+<hr>
+<h3>Testing Your Code</h3>
+<p>
+A significant part of completing this assignment will be
+testing the code you write to make sure that it works correctly. To do this, you
+will need to design test cases that exercise every part of the code.
+</p>
+<p>
+You should pay particular attention to "boundary cases", that is,
+what happens when the data you are testing with is very small, or in
+some way special. For example:
+
+<ul>
+<li> What happens when the list you input has no members, or only one member?
+<li> Does you code work for lists with both even and odd numbers of members?
+<li> Does your code work for negative numbers?
+</ul>
+
+Note: not all of these matter in all cases, so
+for example with <code>log_table</code>, negative numbers don't have
+logs, so it doesn't make sense to ask whether your code works with
+negative numbers or zero.
+<p>
+With each question, some example test data are provided to clarify
+what the code is intended to do. You need to design <i>further</i> test data.
+Testing, and designing test cases, is part of the total programming task.
+<hr>
+<h3>COMP9814-only Questions</h3>
+
+<p>Questions marked <b>COMP9814 only</b> need only be answered by students
+enrolled in COMP9814. (Students enrolled in COMP3411 or COMP9414 are welcome and
+encouraged to solve these problems but their solutions will not be
+assessed.)
+</p>
+<p>
+<strong>It is important to use <u>exactly</u> the names given below
+for your predicates, otherwise the automated testing procedure will
+not be able to find your predicates and you will lose marks. Even the
+capitalisation of your predicate names must be as given below.</strong>
+</p>
+<p>
+</p>
+
+<!-------------------- Question 1 --------------------->
+
+<hr>
+<ol start="1">
+
+<li>Write a predicate <code>weird_sum(List, Result)</code>
+which takes a <code>List</code> of numbers,
+and computes the sum of the squares of the numbers in the list
+that are greater than or equal to 5,
+minus the sum of the absolute values of the numbers that are less than or
+equal to 2.
+For example:
+<pre>
+?- weird_sum([3,6,2,-1], Result).
+
+Result = 33 
+
+</pre>
+That's 6&times;6 - 2 - 1.
+
+<p>
+Note:
+<br>
+(a) it is the <i>value</i> of the item, not its position in the list, that should
+be tested to see if it is greater than or equal to 5, or less than or equal to 2.
+<br>
+(b) you are not required to check whether the items in the list are numbers.
+<p>
+Think carefully about how the predicate should behave on
+the <i>empty</i> list &mdash; should it fail or is there a reasonable value
+that <code>Result</code> can be bound to?
+</p>
+</ol>
+
+<hr>
+<ol start="2">
+<p>
+<li> Suppose that a set of family relationships have been loaded into Prolog using the same format as 
+<a href="http://www.cse.unsw.edu.au/~cs9414/Labs/family.pl"><code>family.pl</code></a>
+
+<pre>
+parent(jim, brian).
+parent(brian, jenny).
+parent(pat, brian).
+female(pat).
+female(jenny).
+male(jim).
+male(brian).
+</pre>
+<b>NOTE:</b> do not include these in your solution file.
+<p>
+We assume that each person will have the same family name as their father,
+but that married women retain their original birth name.
+<p>
+Write a predicate <code>same_name(Person1,Person2)</code>
+that succeeds if it can be deduced from the facts
+in the database that <code>Person1</code> and <code>Person2</code>
+will have the same family name.
+(It is ok if your code returns <code>true</code> multiple times).
+For example:
+<pre>
+?- same_name(pat, brian).
+false.
+
+?- same_name(jenny, jim).
+true 
+</pre>
+<p>
+Note that your <code>same_name</code> predicate will be tested with
+different facts to those in <code>family.pl</code>
+</p>
+</ol>
+
+<hr>
+<ol start="3">
+<p>
+<li> Write a predicate <code>log_table(NumberList, ResultList)</code>
+that binds <code>ResultList</code> to the list of pairs consisting
+of a number and its log, for each number in <code>NumberList</code>.
+For example:
+<pre>
+?- log_table([1,3.7,5], Result).
+Result = [[1, 0.0], [3.7, 1.308332819650179], [5, 1.6094379124341003]].
+
+</pre>
+Note that the Prolog built-in function <code>log</code> computes the 
+natural logarithm, and that it needs to be evaluated using
+<code>is</code> to actually compute the log:
+
+<pre>
+?- X is log(3.7).
+X = 1.308332819650179.
+
+?- X = log(3.7).
+X = log(3.7).
+
+</pre>
+
+<hr>
+<p><b>COMP9814 only:</b> write a predicate
+<code>function_table(+N, +M, +Function, -Result)</code>
+that binds <code>Result</code> to the list of pairs consisting
+of a number X and Function(X), from <code>N</code> down to
+<code>M</code>. For example:
+<pre>
+?- function_table(7, 4, log, Result).
+
+Result = [[7, 1.94591], [6, 1.79176], [5, 1.60944], [4, 1.38629]] ;
+
+false.
+</pre>
+<code>log</code> computes the natural logarithm of it's argument.
+</p>
+
+</pre>
+Hint: look up <code>univ</code> or <code>=..</code> in the
+<a href="http://www.cse.unsw.edu.au/~billw/dictionaries/prolog">Prolog Dictionary</a>.
+</ol>
+
+<hr>
+<ol start="4">
+<p>
+<li> Any list of integers can (uniquely) be broken into
+ "parity runs" where each run is a (maximal) sequence of
+consecutive even or odd numbers within the original list.
+
+For example, the list
+<pre>
+List = [8,0,4,3,7,2,-1,9,9]
+</pre>
+can be broken into <code>[8, 0, 4], [3, 7], [2]</code>
+and <code>[-1, 9, 9]</code>
+<p>
+Write a predicate <code>paruns(List, RunList)</code>
+that converts a list of numbers into the corresponding list of parity runs.
+For example:
+<pre>
+?- paruns([8,0,4,3,7,2,-1,9,9], RunList).
+RunList = [[8, 0, 4], [3, 7], [2], [-1, 9, 9]] 
+</pre>
+</p>
+Note: you can find out how to test if a number is even or odd
+from the
+<a href="http://www.cse.unsw.edu.au/~billw/prologdict.html#arithmetic">Prolog Dictionary</a>
+
+<p>
+</ol>
+
+<hr>
+<ol start="5">
+
+<p>
+<li> In this question we consider binary trees which are represented
+as either <code>empty</code> or
+<code>tree(L, Num, R)</code>, where <code>L</code> and <code>R</code>
+are the left and right subtrees and <code>Num</code> is a number.
+<p>
+A binary tree of numbers is called a <i>heap</i>
+(or, it is said to satisfy the <i>heap property</i>)
+if, for every non-leaf node in the tree,
+the number stored at that node is less than or equal to the number
+stored at each of its children.
+For example, the following tree satisfies the heap property, because
+3 &leq; 5, 5 &leq; 8 and 5 &leq; 7.
+<pre>
+tree(empty,3,tree(tree(empty,8,empty),5,tree(empty,7,empty)))
+</pre>
+
+On the other hand, the following tree does not satisfy the heap property,
+because 6 is not less than or equal to 5.
+<pre>
+tree(tree(tree(empty,4,empty),
+        3,tree(empty,5,empty)),6,tree(tree(empty,9,empty),7,empty))
+</pre>
+
+Write a predicate <code>is_heap(Tree)</code> which returns <code>true</code>
+if <code>Tree</code> satisfies the heap property, and <code>false</code> otherwise.
+For example:
+<pre>
+?- is_heap(tree(tree(tree(empty,4,empty),
+         3,tree(empty,5,empty)),6,tree(tree(empty,9,empty),7,empty))).
+false.
+
+?- is_heap(tree(empty,3,tree(tree(empty,8,empty),5,tree(empty,7,empty)))).
+true 
+
+</pre>
+<p>
+
+<hr>
+<p>
+<b>COMP9814 only:</b>
+The <i>height</i> of a binary tree is defined to be the
+number of nodes in the longest path from the root to a leaf.
+A binary tree is called <i>balanced</i> if, for every node in the tree,
+the height of its left and right subtree differ by no more than 1.
+For example, the tree on the left is balanced, with height 4, but the tree on the
+right is not balanced, because the left and right subtree of node 4
+have heights 0 and 2, respectively.
+<p align="center">
+<img src="balanced.jpg">
+<p>
+<b>COMP9814 only:</b>
+Write a predicate <code>height_if_balanced(Tree, HiB)</code>,
+which takes a binary tree <code>Tree</code> and binds its second
+argument <code>HiB</code> to the height of the Tree,
+if it is balanced, or -1 if it is <i>not</i> balanced.
+<p>
+Trees are represented as either <code>empty</code> or
+<code>tree(L, Data, R)</code>, where <code>L</code> and <code>R</code>
+are the left and right subtrees.
+The <code>Data</code> in each node of the tree is irrelevant to
+this programming exercise.
+<p>
+You are free to copy the predicate <code>max(First, Second, Max)</code>
+from the lecture notes and use it in your program.
+<p>
+<code>Tree</code> must be instantiated at the time of the call.
+These examples use the trees shown above:
+
+<pre>
+?- height_if_balanced(tree(tree(tree(empty,1,empty),2,empty),
+                        3, tree(tree(empty,4,empty),
+                             5, tree(empty,6,tree(empty,7,empty)))),HiB).
+HiB = 4 ;
+false.
+
+?- height_if_balanced(tree(tree(tree(empty,1,empty),2,empty),
+                         3, tree(empty,4,tree(tree(empty,5,empty),
+                                           6, tree(empty,7,empty)))),HiB).
+HiB = -1 ;
+false.
+</pre>
+</ol>
+
+<hr>
+<h3>Testing</h3>
+<p>
+Your assignment will be tested by an automated testing system,
+and also read by a human marker.
+Marks will be allocated for test results, and for layout,
+<a href="http://www.cse.unsw.edu.au/~billw/prologdict.html#comment">comments</a>,
+and comprehensibility.
+</p>
+
+<p>Your code must work under the version of SWI Prolog used on the Linux
+machines in the UNSW School of Computer Science and Engineering. If you
+develop your code on any other platform, it is your responsibility to
+re-test and if necessary correct your code when you transfer it to a CSE
+Linux machine prior to submission.
+</p>
+
+<hr>
+<h3>Submitting your assignment</h3>
+
+<p>Put the Prolog code for all problems into a single file for submission
+purposes.
+</p>
+
+<p>
+<b>COMP3411 students:</b> to hand in,
+log in to a School of CSE Linux workstation or server,
+make sure that your program is in the current working directory,
+and use the Unix command:
+<pre>
+% <i>give cs3411 prolog mycode.pl</i>
+</pre>
+where <code><i>mycode.pl</i></code> is replaced by the name of the file with your
+code in it.
+</p>
+
+<p>
+<b>COMP9414 students:</b> to hand in,
+log in to a School of CSE Linux workstation or server,
+make sure that your program is in the current working directory,
+and use the Unix command:
+<pre>
+% <i>give cs9414 prolog mycode.pl</i>
+</pre>
+where <code><i>mycode.pl</i></code> is replaced by the name of the file with your
+code in it.
+</p>
+
+<p>
+<b>COMP9814 students:</b> to hand in,
+log in to a School of CSE Linux workstation or server,
+make sure that your program is in the current working directory,
+and use the Unix command:
+<pre>
+% <i>give cs9414 extprolog mycode.pl</i>
+</pre>
+where <code><i>mycode.pl</i></code> is replaced by the name of the file with your
+code in it. (Yes, that's <code><i>cs9414</i></code>
+and <code><i>extprolog</i></code>).
+<p>
+<b>Please make sure your code works on CSE's Linux machines and
+generates no warnings. Remove all test code from your submission,
+including that for question 2. Make sure you have named your
+predicates correctly.</b>
+<p>
+You can submit as many times as you like - later submissions
+will overwrite earlier ones. You can check that your submission
+has been received by using one of these commands:
+<P>
+<tt>% 3411 classrun -check</tt><br>
+<tt>% 9414 classrun -check</tt>
+<P>
+The submission deadline is Wednesday 5 April, 11:59 pm.<br>
+15% penalty will be applied to the (maximum) mark
+for every 24 hours late after the deadline.
+<p>
+Questions relating to the project can be posted to the
+Forums on the course Web site.
+<p>
+If you have a question that has not already been answered on
+the Forum, you can email it to
+<code>blair@cse.unsw.edu.au</code>
+<p>
+
+<h4>Plagiarism Policy</h4>
+<p>
+Group submissions will not be allowed.
+Your program must be entirely your own work.
+Plagiarism detection software will be used to compare all submissions pairwise
+(including submissions for any similar projects from previous years)
+and serious penalties will be applied, particularly in the case
+of repeat offences.
+<p>
+<b>DO NOT COPY FROM OTHERS; DO NOT ALLOW ANYONE TO SEE YOUR CODE</b>
+<p>
+Please refer to the
+<a href="https://student.unsw.edu.au/plagiarism">UNSW Policy on Academic Honesty and Plagiarism</a>
+if you require further clarification on this matter.
+<P>
+<P>
+Good luck!
+<br>
+<HR>
+</BODY>
+</HTML>
